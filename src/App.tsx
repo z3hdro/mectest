@@ -1,37 +1,23 @@
-import { Assets as NavigationAssets } from '@react-navigation/elements';
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { Asset } from 'expo-asset';
-import { createURL } from 'expo-linking';
-import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
-import { useColorScheme } from 'react-native';
-import { Navigation } from './navigation';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {RootNavigator} from "@/navigation";
+import {Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold, useFonts} from "@expo-google-fonts/manrope";
 
-Asset.loadAsync([
-  ...NavigationAssets,
-  require('./assets/newspaper.png'),
-  require('./assets/bell.png'),
-]);
-
-SplashScreen.preventAutoHideAsync();
-
-const prefix = createURL('/');
+const queryClient = new QueryClient();
 
 export function App() {
-  const colorScheme = useColorScheme();
+  let [fontsLoaded] = useFonts({
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+  });
 
-  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme
+  if (!fontsLoaded) return null;
 
   return (
-    <Navigation
-      theme={theme}
-      linking={{
-        enabled: 'auto',
-        prefixes: [prefix],
-      }}
-      onReady={() => {
-        SplashScreen.hideAsync();
-      }}
-    />
+    <QueryClientProvider client={queryClient}>
+      <RootNavigator />
+    </QueryClientProvider>
   );
 }
