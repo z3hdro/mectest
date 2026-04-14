@@ -1,77 +1,85 @@
-import { Profile } from 'types/user'
-import { ORDER_STATUS_VALUES, OrderModel } from 'types/order'
-import { ContragentDadadata } from 'types/contragent'
+import {PostTierType} from "@/types";
 
-export type LoginPayload = {
-  phone: string
-  password: string
-  fcmToken: string
-  deviceType?: string
-}
+export type Author = {
+    id: string;
+    username: string;
+    displayName: string;
+    avatarUrl: string;
+    bio: string;
+    subscribersCount: number;
+    isVerified: boolean;
+};
 
-export type RegisterPayload = {
-  phone: string
-  password: string
-  fcmToken: string
-  deviceType?: string
-  role: string
-  contragentName?: string
-  contragentINN?: string
-  kpp?: string
-}
+export type Post = {
+    id: string;
+    title: string;
+    body: string;
+    preview: string;
+    coverUrl: string;
+    likesCount: number;
+    commentsCount: number;
+    isLiked: boolean;
+    tier: PostTierType;
+    author: Author;
+    createdAt: string;
+};
 
-export type LoginResponse = {
-  accessToken: string
-  refreshToken: string
-  user: Profile
-}
+export type Comment = {
+    id: string;
+    postId: string;
+    text: string;
+    author: Author;
+    createdAt: string;
+};
 
-export type RegisterResponse = {
-  accessToken: string
-  refreshToken: string
-  user: Profile
-}
+export type GetPostsParams = {
+    limit?: number;
+    cursor?: string;
+    tier?: PostTierType;
+    simulate_error?: boolean;
+};
 
-export type CheckCodePayload = {
-  phone: string
-  code: string
-}
+export type GetPostsResponse = {
+    ok: boolean;
+    data: {
+        posts: Post[];
+        nextCursor: string | null;
+        hasMore: boolean;
+    };
+};
 
-export type ResetPasswordPayload = {
-  phone: string
-  code: string
-  password: string
-}
+export type PostDetailResponse = {
+    ok: boolean;
+    data: {
+        post: Post;
+    };
+};
 
-export type RefreshResponse = {
-  accessToken: string
-  refreshToken: string
-}
+export type LikeResponse = {
+    ok: boolean;
+    data: {
+        isLiked: boolean;
+        likesCount: number;
+    };
+};
 
-export type MessageResponse = {
-  message: string
-  order?: OrderModel
-}
+export type GetCommentsParams = {
+    limit?: number;
+    cursor?: string;
+};
 
-export type CancelOrderPayload = {
-  orderId: number
-}
+export type CommentsResponse = {
+    ok: boolean;
+    data: {
+        comments: Comment[];
+        nextCursor: string | null;
+        hasMore: boolean;
+    };
+};
 
-export type OrderGeoPayload = {
-  position: {
-    type: string
-    coordinates: number[]
-  }
-}
-
-export type GetManagerPhoneResponse = {
-  managerPhone: string
-}
-
-export type ContrAgentDadadataResponse = {
-  suggestions: ContragentDadadata[]
-}
-
-export type UpdateOrderStatusPayload = {
-  status: ORDER_STATUS_VALUES
-}
+export type CommentCreatedResponse = {
+    ok: boolean;
+    data: {
+        comment: Comment;
+    };
+};
