@@ -3,11 +3,11 @@ import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator, NativeStackNavigationOptions} from "@react-navigation/native-stack";
 
 import {Preloader} from '@/components'
-import {RootStackParamList} from "@/types";
-import {FeedScreen} from "@/screens/FeedScreen";
-import {PostDetailScreen} from "@/screens/PostDetailScreen";
+import {FeedScreen, PostDetailScreen} from "@/screens";
 
 import {useStyles} from './RootNavigator.styles'
+
+import {RootStackParamList} from "@/types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 

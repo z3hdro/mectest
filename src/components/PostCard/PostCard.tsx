@@ -1,12 +1,19 @@
 import {FC, memo} from "react";
 import {View, Text, Image, Pressable} from 'react-native';
 
-import {PostTier} from "@/constants";
+import {colors, PostTier} from "@/constants";
+import {DonateCurtain, Icon, LikeButton} from "@/components";
+import {COMMENT_ICON_SIZE} from "./PostCard.constants";
 import {useStyles} from "./PostCard.styles";
 import {PostCardProps} from "./PostCard.types";
+import { useTogglePost } from "@/hooks";
 
 export const PostCard: FC<PostCardProps> = memo(({post, onPress}) => {
     const styles = useStyles();
+
+    const likeMutation = useTogglePost(post.id);
+
+    const isPaid = post.tier === PostTier.Paid
 
     return (
         <View style={styles.container}>
@@ -19,22 +26,47 @@ export const PostCard: FC<PostCardProps> = memo(({post, onPress}) => {
                     <Text style={styles.userName}>{post.author.displayName}</Text>
                 </View>
 
-                <Image
-                    source={{uri: post.coverUrl}}
-                    style={styles.postImage}
-                />
+                <View style={styles.imageWrapper}>
+                    {isPaid && (
+                        <DonateCurtain />
+                    )}
+                    <Image
+                        source={{uri: post.coverUrl}}
+                        style={styles.postImage}
+                    />
+                </View>
+
             </Pressable>
 
-            {post.tier === PostTier.Paid ? (
-                <Text style={styles.preview}>🔒 Подпишитесь, чтобы увидеть пост</Text>
+            {isPaid ? (
+                <View style={styles.skeleton}>
+                    <View style={styles.skeletonTitle} />
+                    <View style={styles.skeletonDescription} />
+                </View>
             ) : (
-                <Text style={styles.preview}>{post.preview}</Text>
+                <View style={styles.info}>
+                    <Text style={styles.title}>{post.title}</Text>
+                    <Text style={styles.description}>{post.preview}</Text>
+                </View>
             )}
 
-            <View style={styles.statsRow}>
-                <Text style={styles.stat}>❤️ {post.likesCount}</Text>
-                <Text style={styles.stat}>💬 {post.commentsCount}</Text>
-            </View>
+            {!isPaid && (
+                <View style={styles.statsRow}>
+                    <LikeButton
+                        isLiked={post.isLiked}
+                        likesCount={post.likesCount}
+                        onPress={() => likeMutation.mutate()}
+                        disabled={likeMutation.isPending}
+                    />
+
+                    <View style={styles.chip}>
+                        <Icon name={"comment"} width={COMMENT_ICON_SIZE} height={COMMENT_ICON_SIZE} color={colors.disabledGray} />
+
+                        <Text style={styles.stat}>{post.commentsCount}</Text>
+                    </View>
+                </View>
+            )}
+
         </View>
     );
 });

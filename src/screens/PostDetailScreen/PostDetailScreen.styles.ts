@@ -48,12 +48,23 @@ export const useStyles = () => {
                     fontSize: 16,
                     fontFamily: 'Manrope_600SemiBold',
                 },
+                info: {
+                    paddingHorizontal: 16,
+                    alignItems: 'flex-start',
+                    gap: 12,
+                },
+                title: {
+                    fontFamily: 'Manrope_700Bold',
+                    fontSize: 18,
+                    lineHeight: 26,
+                    color: colors.dark
+                },
                 body: {
                     paddingHorizontal: 16,
                     fontSize: 15,
-                    lineHeight: 22,
-                    color: colors.black,
-                    fontFamily: 'Manrope_400Regular',
+                    lineHeight: 20,
+                    color: colors.dark,
+                    fontFamily: 'Manrope_500Medium',
                 },
                 paidPlaceholder: {
                     paddingHorizontal: 16,
@@ -66,6 +77,9 @@ export const useStyles = () => {
                 likeSection: {
                     paddingHorizontal: 16,
                     paddingVertical: 12,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    gap: 4,
                 },
                 commentsSection: {
                     paddingTop: 16,
@@ -87,7 +101,7 @@ export const useStyles = () => {
                 },
                 inputRow: {
                     position: 'absolute',
-                    bottom: 0,
+                    bottom: 24,
                     left: 0,
                     right: 0,
                     flexDirection: 'row',
@@ -103,14 +117,16 @@ export const useStyles = () => {
                     flex: 1,
                     height: 40,
                     borderRadius: 20,
-                    backgroundColor: colors.lightGray,
+                    backgroundColor: colors.white,
                     paddingHorizontal: 16,
-                    fontSize: 14,
-                    fontFamily: 'Manrope_400Regular',
+                    fontSize: 15,
+                    lineHeight: 20,
+                    fontFamily: 'Manrope_500Medium',
+                    borderWidth: 2,
+                    borderColor: colors.chipBackground,
                 },
                 sendButton: {
-                    paddingHorizontal: 12,
-                    paddingVertical: 8,
+                    padding: 8,
                 },
                 sendButtonText: {
                     fontSize: 14,
@@ -124,6 +140,27 @@ export const useStyles = () => {
                     flex: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
+                },
+                statsRow: {
+                    flexDirection: 'row',
+                    paddingHorizontal: 16,
+                    paddingTop: 8,
+                    gap: 16,
+                },
+                chip: {
+                    padding: 6,
+                    paddingRight: 12,
+                    backgroundColor: colors.chipBackground,
+                    borderRadius: 9999,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4
+                },
+                stat: {
+                    fontSize: 13,
+                    lineHeight: 18,
+                    color: colors.disabledGray,
+                    fontFamily: 'Manrope_700Bold',
                 },
             }),
         []

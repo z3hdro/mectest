@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import {StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
 import {colors} from "@/constants";
 
 export const useStyles = () => {
@@ -8,12 +8,14 @@ export const useStyles = () => {
             StyleSheet.create({
                 container: {
                     marginBottom: 16,
+                    backgroundColor: colors.white,
+                    paddingVertical: 16,
                 },
                 userRow: {
                     flexDirection: 'row',
                     alignItems: 'center',
                     paddingHorizontal: 16,
-                    paddingVertical: 8,
+                    paddingBottom: 16,
                 },
                 avatar: {
                     width: 40,
@@ -26,17 +28,34 @@ export const useStyles = () => {
                     lineHeight: 20,
                     fontFamily: 'Manrope_600SemiBold',
                 },
+                imageWrapper: {
+                    width: '100%',
+                    height: Dimensions.get("window").width,
+                    position: 'relative',
+                },
                 postImage: {
                     width: '100%',
                     aspectRatio: 1,
+                    zIndex: 5
                 },
-                preview: {
+                info: {
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 8,
+                    paddingVertical: 8,
                     paddingHorizontal: 16,
-                    paddingTop: 8,
-                    fontSize: 14,
+                },
+                title: {
+                    fontSize: 18,
+                    lineHeight: 26,
+                    fontFamily: 'Manrope_700Bold',
+                    color: colors.dark
+                },
+                description: {
+                    fontSize: 15,
                     lineHeight: 20,
-                    color: colors.black,
-                    fontFamily: 'Manrope_400Regular',
+                    fontFamily: 'Manrope_500Medium',
+                    color: colors.dark
                 },
                 statsRow: {
                     flexDirection: 'row',
@@ -44,10 +63,39 @@ export const useStyles = () => {
                     paddingTop: 8,
                     gap: 16,
                 },
+                chip: {
+                    padding: 6,
+                    paddingRight: 12,
+                    backgroundColor: colors.chipBackground,
+                    borderRadius: 9999,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4
+                },
                 stat: {
-                    fontSize: 14,
-                    color: colors.gray,
-                    fontFamily: 'Manrope_400Regular',
+                    fontSize: 13,
+                    lineHeight: 18,
+                    color: colors.disabledGray,
+                    fontFamily: 'Manrope_700Bold',
+                },
+                skeleton: {
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 8,
+                    paddingVertical: 8,
+                    paddingHorizontal: 16,
+                },
+                skeletonTitle: {
+                    height: 26,
+                    width: '40%',
+                    backgroundColor: colors.skeleton,
+                    borderRadius: 22,
+                },
+                skeletonDescription: {
+                    height: 40,
+                    width: '100%',
+                    backgroundColor: colors.skeleton,
+                    borderRadius: 22,
                 },
             }),
         []

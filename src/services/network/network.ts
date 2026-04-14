@@ -1,14 +1,11 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
-import Constants from 'expo-constants'
+import "react-native-get-random-values";
 import { v4 as uuidv4 } from 'uuid';
 
 import {GetPostsResponse, GetPostsParams, PostDetailResponse, LikeResponse, CommentsResponse, CommentCreatedResponse, GetCommentsParams} from "@/services";
-// import { webSocketService } from '../webSocket'
 
-const { BASE_URL } = Constants?.expoConfig?.extra ?? {}
-
-export const NETWORK_BASE_URL = (process.env.BASE_URL ?? BASE_URL) as string
+export const NETWORK_BASE_URL = process.env.EXPO_PUBLIC_BASE_URL as string
 
 class NetworkService {
   protected authorizedClient: AxiosInstance
@@ -40,9 +37,6 @@ class NetworkService {
 
         this.setAuthHeader(accessToken)
 
-        // update websocket token
-        // webSocketService.updateToken(accessToken)
-
         return Promise.resolve()
       } catch (error) {
         console.error('interceptor error: ', error)
@@ -60,9 +54,6 @@ class NetworkService {
   public async forceLogout() {
     this.clearAuthHeader();
     this.token = null;
-
-    // webSocketService.disconnect()
-    // webSocketService.clear()
   }
 
   public getAuthorizationToken(): string {

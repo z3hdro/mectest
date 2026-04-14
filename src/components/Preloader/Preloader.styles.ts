@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { useMemo } from 'react'
-import { colors } from 'constants/colors'
+import { colors } from '@/constants/colors'
 
 export const useStyles = () => {
   return useMemo(
@@ -15,7 +15,7 @@ export const useStyles = () => {
           height: 60,
           width: 60,
           borderRadius: 8,
-          backgroundColor: colors.color2,
+          backgroundColor: colors.gray,
           justifyContent: 'center',
           alignItems: 'center',
         },

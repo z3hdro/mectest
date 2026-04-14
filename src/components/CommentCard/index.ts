@@ -1,1 +1,1 @@
-export {CommentCard} from './CommentCard';
+export * from './CommentCard';

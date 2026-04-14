@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { ActivityIndicator, View } from 'react-native'
-import { colors } from 'constants/colors'
+import { colors } from '@/constants/colors'
 import { useStyles } from './Preloader.styles'
 import { Props } from './Preloader.types'
 
@@ -15,3 +15,5 @@ export const Preloader: FC<Props> = ({ style }) => {
     </View>
   )
 }
+
+Preloader.displayName = 'Preloader'

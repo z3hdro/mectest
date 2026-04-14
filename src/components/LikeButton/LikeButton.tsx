@@ -8,6 +8,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 
+import {Icon} from "@/components";
+import {colors} from "@/constants";
+import { ICON_SIZE } from "./LikeButton.constants";
 import {useStyles} from './LikeButton.styles';
 import {LikeButtonProps} from './LikeButton.types';
 
@@ -50,14 +53,20 @@ export const LikeButton: FC<LikeButtonProps> = ({isLiked, likesCount, onPress, d
     }));
 
     return (
-        <Pressable style={styles.container} onPress={handlePress} disabled={disabled}>
+        <Pressable
+            style={[styles.container, isLiked && styles.containerSelected]}
+            onPress={handlePress} disabled={disabled}>
             <Animated.View style={[styles.iconContainer, iconAnimatedStyle]}>
-                <Text style={{fontSize: 24}}>
-                    {isLiked ? '❤️' : '🤍'}
-                </Text>
+                <Icon
+                    name={isLiked ? 'likeFilled' : 'like'}
+                    width={ICON_SIZE}
+                    height={ICON_SIZE}
+                    aria-checked={isLiked}
+                    color={isLiked ? colors.selected : colors.disabledGray}
+                />
             </Animated.View>
             <Animated.View style={[styles.countContainer, countAnimatedStyle]}>
-                <Text style={styles.countText}>{likesCount}</Text>
+                <Text style={[styles.countText, isLiked && styles.countTextSelected]}>{likesCount}</Text>
             </Animated.View>
         </Pressable>
     );

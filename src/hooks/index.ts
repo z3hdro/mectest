@@ -1,1 +1,2 @@
-export {usePostRealtime} from './usePostRealtime';
+export * from './usePostRealtime';
+export * from './useTogglePost';
