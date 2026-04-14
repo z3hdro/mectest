@@ -9,7 +9,7 @@ import {PostTier} from '@/constants';
 import {LikeButton, CommentCard, ErrorView} from '@/components';
 import {usePostRealtime} from '@/hooks';
 
-import {POST_DETAIL_KEY, COMMENTS_KEY} from './PostDetailScreen.constants';
+import {POST_DETAIL_KEY, COMMENTS_KEY} from '@/constants';
 import {useStyles} from './PostDetailScreen.styles';
 
 type DetailRouteProp = RouteProp<RootStackParamList, 'FeedDetailsScreen'>;
@@ -136,6 +136,7 @@ export const PostDetailScreen = () => {
                         isLiked={post.isLiked}
                         likesCount={post.likesCount}
                         onPress={() => likeMutation.mutate()}
+                        disabled={likeMutation.isPending}
                     />
                 </View>
 

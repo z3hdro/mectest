@@ -28,7 +28,7 @@ export const FeedScreen = () => {
         queryKey: [GET_POSTS],
         queryFn: ({pageParam}) =>
             networkService.getPosts({
-                cursor: pageParam,
+                cursor: pageParam || undefined,
             }),
         getNextPageParam: (lastPage) => lastPage.data.nextCursor,
     });

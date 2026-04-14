@@ -5,25 +5,18 @@ import Animated, {
     useAnimatedStyle,
     withTiming,
     withSequence,
-    interpolateColor,
 } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 
-import {colors} from '@/constants';
 import {useStyles} from './LikeButton.styles';
 import {LikeButtonProps} from './LikeButton.types';
 
-export const LikeButton: FC<LikeButtonProps> = ({isLiked, likesCount, onPress}) => {
+export const LikeButton: FC<LikeButtonProps> = ({isLiked, likesCount, onPress, disabled}) => {
     const styles = useStyles();
 
     const scale = useSharedValue(1);
-    const liked = useSharedValue(isLiked ? 1 : 0);
     const countTranslateY = useSharedValue(0);
     const countOpacity = useSharedValue(1);
-
-    useEffect(() => {
-        liked.value = withTiming(isLiked ? 1 : 0, {duration: 200});
-    }, [isLiked, liked]);
 
     useEffect(() => {
         countOpacity.value = withSequence(
@@ -38,20 +31,17 @@ export const LikeButton: FC<LikeButtonProps> = ({isLiked, likesCount, onPress}) 
     }, [likesCount, countOpacity, countTranslateY]);
 
     const handlePress = useCallback(() => {
+        if (disabled) return;
         scale.value = withSequence(
             withTiming(1.3, {duration: 150}),
             withTiming(1, {duration: 150}),
         );
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         onPress();
-    }, [onPress, scale]);
+    }, [onPress, scale, disabled]);
 
     const iconAnimatedStyle = useAnimatedStyle(() => ({
         transform: [{scale: scale.value}],
-    }));
-
-    const iconColorStyle = useAnimatedStyle(() => ({
-        color: interpolateColor(liked.value, [0, 1], [colors.gray, colors.red]),
     }));
 
     const countAnimatedStyle = useAnimatedStyle(() => ({
@@ -60,11 +50,11 @@ export const LikeButton: FC<LikeButtonProps> = ({isLiked, likesCount, onPress}) 
     }));
 
     return (
-        <Pressable style={styles.container} onPress={handlePress}>
+        <Pressable style={styles.container} onPress={handlePress} disabled={disabled}>
             <Animated.View style={[styles.iconContainer, iconAnimatedStyle]}>
-                <Animated.Text style={[{fontSize: 24}, iconColorStyle]}>
+                <Text style={{fontSize: 24}}>
                     {isLiked ? '❤️' : '🤍'}
-                </Animated.Text>
+                </Text>
             </Animated.View>
             <Animated.View style={[styles.countContainer, countAnimatedStyle]}>
                 <Text style={styles.countText}>{likesCount}</Text>
