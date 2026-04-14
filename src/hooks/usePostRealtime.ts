@@ -3,9 +3,7 @@ import {useQueryClient} from '@tanstack/react-query';
 
 import {networkService, webSocketService, PostDetailResponse, CommentsResponse, Comment} from '@/services';
 import {WsEvent} from '@/services/websocket/types';
-
-const POST_DETAIL_KEY = 'POST_DETAIL';
-const COMMENTS_KEY = 'COMMENTS';
+import {POST_DETAIL_KEY, COMMENTS_KEY} from '@/screens/PostDetailScreen/PostDetailScreen.constants';
 
 export const usePostRealtime = (postId: string) => {
     const queryClient = useQueryClient();
