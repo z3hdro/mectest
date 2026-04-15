@@ -16,6 +16,15 @@ export const useStyles = () => {
                     alignItems: 'center',
                     paddingHorizontal: 16,
                     paddingBottom: 16,
+                    position: "relative",
+                },
+                avatarSkeleton: {
+                    width: 40,
+                    height: 40,
+                    borderRadius: 20,
+                    marginRight: 10,
+                    backgroundColor: colors.disabledGray,
+                    position: "absolute",
                 },
                 avatar: {
                     width: 40,

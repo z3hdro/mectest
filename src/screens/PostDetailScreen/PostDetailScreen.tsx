@@ -11,11 +11,12 @@ import {
     Platform
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useQuery, useInfiniteQuery, useMutation} from '@tanstack/react-query';
+import {InfiniteData, useQuery, useInfiniteQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
-import {networkService, Comment} from '@/services';
+import {networkService, Comment, PostDetailResponse, GetPostsResponse} from '@/services';
 import {POST_DETAIL_KEY, COMMENTS_KEY, colors} from '@/constants';
+import {GET_POSTS} from '@/screens/FeedScreen/FeedScreen.constants';
 import {LikeButton, CommentCard, ErrorView, Icon} from '@/components';
 import {usePostRealtime, useTogglePost} from '@/hooks';
 import {EDGES, MAX_COMMENT_LENGTH, COMMENT_ICON_SIZE, SEND_ICON_SIZE} from "./PostDetailsScreen.constants";
@@ -27,6 +28,7 @@ export const PostDetailScreen = () => {
     const navigation = useNavigation();
     const route = useRoute<DetailRouteProp>();
     const {postId} = route.params;
+    const queryClient = useQueryClient();
     const [commentText, setCommentText] = useState('');
 
     usePostRealtime(postId);
@@ -55,6 +57,47 @@ export const PostDetailScreen = () => {
         mutationFn: (text: string) => networkService.createComment(postId, text),
         onSuccess: () => {
             setCommentText('');
+
+            queryClient.setQueryData<PostDetailResponse>(
+                [POST_DETAIL_KEY, postId],
+                (old) => {
+                    if (!old) return old;
+                    return {
+                        ...old,
+                        data: {
+                            ...old.data,
+                            post: {
+                                ...old.data.post,
+                                commentsCount: old.data.post.commentsCount + 1,
+                            },
+                        },
+                    };
+                },
+            );
+
+            queryClient.setQueryData<InfiniteData<GetPostsResponse>>(
+                [GET_POSTS],
+                (old) => {
+                    if (!old) return old;
+                    return {
+                        ...old,
+                        pages: old.pages.map((page) => ({
+                            ...page,
+                            data: {
+                                ...page.data,
+                                posts: page.data.posts.map((post) =>
+                                    post.id === postId
+                                        ? {
+                                            ...post,
+                                            commentsCount: post.commentsCount + 1,
+                                        }
+                                        : post,
+                                ),
+                            },
+                        })),
+                    };
+                },
+            );
         },
     });
 
